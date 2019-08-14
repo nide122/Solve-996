@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<properties>
+		<!-- oracle 或者  mysql-->
+		<property name="dialect" value="mysql"/>
+		<!-- sql分页拦截的语句格式 -->
+		<property name="pageSqlId" value=".*Page$"/>
+		<!-- showsql -->
+		<property name="showsql" value="true"/>
+	</properties>
+	<plugins>
+         <!-- 分页拦截器 -->
+         <plugin interceptor="com.createTemplate.model.mybatis.interceptor.PageInterceptor">
+         </plugin>
+     </plugins>
+</configuration>

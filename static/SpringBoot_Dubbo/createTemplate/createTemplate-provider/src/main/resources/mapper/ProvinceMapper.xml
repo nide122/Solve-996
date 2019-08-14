@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="province">
+	<resultMap type="com.createTemplate.model.base.pojo.Province" id="province"></resultMap>
+	<parameterMap type="com.createTemplate.model.base.vo.ProvinceVo"
+		id="provinceVo"></parameterMap>
+
+	<resultMap type="com.createTemplate.model.base.pojo.City" id="city"></resultMap>
+	<parameterMap type="com.createTemplate.model.base.pojo.City" id="city"></parameterMap>
+	<parameterMap type="com.createTemplate.model.base.vo.CityVo" id="cityVo"></parameterMap>
+
+	<resultMap type="com.createTemplate.model.base.pojo.Areas" id="areas"></resultMap>
+	<resultMap type="java.util.HashMap" id="map"></resultMap>
+	<parameterMap type="com.createTemplate.model.base.vo.AreasVo"
+		id="areasVo"></parameterMap>
+	<!-- 分页查询省份 -->
+	<select id="findProvincePage" resultMap="province" parameterMap="provinceVo">
+		select ${column} from T_PROVINCE
+		where 1=1
+		<if test="null!= province_name and '' != province_name">
+			and province_name like '%${province_name}%'
+		</if>
+		<if test="null!= province_code and '' != province_code">
+			and province_code = #{province_code}
+		</if>
+		order by province_code asc
+	</select>
+	
+	<select id="findProvince" resultMap="province" parameterMap="provinceVo">
+		select ${column} from T_PROVINCE
+		where 1=1
+		<if test="null!= province_name and '' != province_name">
+			and province_name like '%${province_name}%'
+		</if>
+		<if test="null!= province_code and '' != province_code">
+			and province_code = #{province_code}
+		</if>
+		order by province_code asc
+	</select>
+	
+	<!-- 分页查询城市 -->
+	<select id="findCityPage" resultMap="city" parameterMap="cityVo">
+		select ${column} from T_CITY
+		where 1=1
+		<if test="null!= province_code and '' != province_code">
+			and province_code = #{province_code}
+		</if>
+		<if test="null!= city_name and '' != city_name">
+			and city_name like '%${city_name}%'
+		</if>
+		<if test="null!= city_code and '' != city_code">
+			and city_code = #{city_code}
+		</if>
+		order by city_code asc
+	</select>
+	
+	<select id="findCity" resultMap="city" parameterMap="cityVo">
+		select ${column} from T_CITY
+		where 1=1
+		<if test="null!= province_code and '' != province_code">
+			and province_code = #{province_code}
+		</if>
+		<if test="null!= city_name and '' != city_name">
+			and city_name like '%${city_name}%'
+		</if>
+		<if test="null!= city_code and '' != city_code">
+			and city_code = #{city_code}
+		</if>
+		order by city_code asc
+	</select>
+
+	<!-- 根据id或者cityCode查询城市 -->
+	<select id="findCityById" resultMap="city" parameterMap="city">
+		select *
+		from T_CITY where id=#{id}
+		order by city_code asc
+	</select>
+
+	<update id="updateHotFlag" parameterMap="city">
+		update T_CITY set
+		hot_flag=#{hot_flag} where id=#{id}
+	</update>
+
+	<update id="updateIfDredge" parameterMap="city">
+		update T_CITY set
+		if_dredge=#{if_dredge} where id=#{id}
+	</update>
+
+	<!-- 分页查询区县 -->
+	<select id="findAreasPage" resultMap="areas" parameterMap="areasVo">
+		select ${column} from T_AREAS
+		where 1=1
+		<if test="null!= city_code and '' != city_code">
+			and city_code = #{city_code}
+		</if>
+		<if test="null!= areas_name and '' != areas_name">
+			and areas_name like '%${areas_name}%'
+		</if>
+		<if test="null!= areas_code and '' != areas_code">
+			and areas_code = #{areas_code}
+		</if>
+		order by areas_code asc
+	</select>
+	
+	<select id="findAreas" resultMap="areas" parameterMap="areasVo">
+		select ${column} from T_AREAS
+		where 1=1
+		<if test="null!= city_code and '' != city_code">
+			and city_code = #{city_code}
+		</if>
+		<if test="null!= areas_name and '' != areas_name">
+			and areas_name like '%${areas_name}%'
+		</if>
+		<if test="null!= areas_code and '' != areas_code">
+			and areas_code = #{areas_code}
+		</if>
+		order by areas_code asc
+	</select>
+
+	<!-- 分页查询区县 -->
+	<select id="generateGuzzRule" resultMap="city" parameterMap="city">
+		select
+		id,provinceCode,cityNamecityCode,firstPinyin,hotFlag,longItude,latItude,ifDredge
+		from T_CITY
+		where 1=1
+		<if test="null!= ifDredge ">
+			and ifDredge = #{ifDredge}
+		</if>
+		<if test="null!= cityCode and '' != cityCode">
+			and cityCode like '%${cityCode}%'
+		</if>
+		<if test="null!= hotFlag ">
+			and hotFlag = #{hotFlag}
+		</if>
+		order by firstPinyin asc
+	</select>
+</mapper>

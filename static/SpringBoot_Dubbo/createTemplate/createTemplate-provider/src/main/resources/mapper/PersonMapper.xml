@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="person">
+	<resultMap type="com.createTemplate.model.core.pojo.TPerson" id="person"></resultMap>
+	<resultMap type="com.createTemplate.model.core.vo.TPersonVO" id="personVo"></resultMap>
+	<parameterMap type="com.createTemplate.model.core.pojo.TPerson" id="person"></parameterMap>
+	<parameterMap type="com.createTemplate.model.core.vo.TPersonVO" id="personVo"></parameterMap>
+	<parameterMap type="java.util.HashMap" id="map"></parameterMap>
+	<parameterMap type="java.util.Set" id="set"></parameterMap>
+	<!-- 根据手机号查询用户信息 -->
+	<select id="findPersonByMobile" resultMap="personVo"
+		parameterMap="personVo">
+		SELECT
+		${column}
+		FROM
+		T_PERSON p where p.phone_num = #{phone_num}
+	</select>
+
+	<!-- 根据ID查询用户信息 -->
+	<select id="findById" resultMap="person" parameterMap="map">
+		SELECT ${column} FROM T_PERSON 
+		where id = #{id}
+	</select>
+	
+	<select id="findByIds" resultMap="person" parameterMap="map">
+		SELECT ${column} FROM T_PERSON 
+		where 
+		<foreach collection="ids" item="item" open="id in  (" close=")" separator=",">
+                 #{item}
+        </foreach>
+	</select>
+	
+	<!-- 分页查询-admin使用 -->
+	<select id="findPersonPage" resultMap="personVo" parameterMap="personVo">
+		SELECT ${column} FROM
+		T_PERSON p where 1=1
+		<if test="null != phone_num and '' != phone_num">
+			and phone_num like '%${phone_num}%'
+		</if>
+		<if test="null != alias_name and '' != alias_name">
+			and alias_name like '%${alias_name}%'
+		</if>
+		order by id asc
+	</select>
+	
+	<!-- 根据ID查询用户详情 -->
+	<select id="findPersonDetailById" resultMap="personVo" parameterMap="map">
+		SELECT ${column} FROM T_PERSON  
+		where id = #{id}
+	</select>
+
+</mapper>

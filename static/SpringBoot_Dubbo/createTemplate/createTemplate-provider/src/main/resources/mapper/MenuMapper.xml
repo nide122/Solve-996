@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="menu">
+	<resultMap type="com.createTemplate.model.admin.system.pojo.Menu" id="menu"></resultMap>
+	<parameterMap type="com.createTemplate.model.admin.system.vo.MenuVo" id="menuVo"></parameterMap>
+	<resultMap type="com.createTemplate.model.admin.system.pojo.Button" id="button"></resultMap>
+	<parameterMap type="com.createTemplate.model.admin.system.vo.ButtonVo" id="buttonVo"></parameterMap>
+	<!-- 根据roleId查询用户权限菜单-->
+	<select id="findUserRole" resultMap="menu" parameterMap="menuVo" >
+	    SELECT menu.icon_cls,menu.id,menu.level,menu.menu_cname,menu.menu_ename,menu.parent_id,menu.sort,menu.url 
+	    FROM T_MENU left join T_ROLE_MENU rm on menu.id = rm.menu_id 
+	    	where 1=1 
+	    	and rm.role_id = #{role_id}
+	    	<choose>
+			    <when test="null!=parent_id">
+			    	and level = 2
+			    	and parent_id = #{parent_id}
+			    </when>
+			    <otherwise>
+			    	and level = 1
+			    </otherwise>
+			</choose>
+			order by menu.sort asc
+	</select>
+	<!-- 根据ids查询菜单-->
+	<select id="findByIds" resultMap="menu" parameterMap="menuVo" >
+	    select ${column} from T_MENU
+	    where id in(${ids})
+	</select>
+	<!-- 分页查询菜单-->
+	<select id="findPage" resultMap="menu" parameterMap="menuVo" >
+	    select ${column} from T_MENU
+	    where 1=1  
+	    <if test="null != menu_cname and '' != menu_cname">
+	    	and menu_cname like '%${menu_cname}%'
+		</if>
+		<if test="null != menu_ename and '' != menu_ename">
+	    	and menu_ename like '%${menu_ename}%'
+		</if>
+		<if test="null != status">
+	    	and status = #{status}
+		</if>
+		<choose>
+		    <when test="null != parent_id">
+		    	and level = 2
+		    	and parent_id = #{parent_id}
+		    </when>
+		    <otherwise>
+		    	and level = 1
+		    </otherwise>
+		</choose>
+		order by sort
+	</select>
+	
+	<!-- 分页查询角色-->
+	<select id="findButtonPage" resultMap="button" parameterMap="buttonVo" >
+	    select ${column} from T_BUTTON
+    	where menu_id = #{menu_id}
+    	<if test="null != menu_ename and '' != menu_ename">
+    		and menu_ename like '%${menu_ename}%'
+    	</if>
+    	<if test="null != button_ename and '' != button_ename">
+    		and button_ename like '%${button_ename}%'
+    	</if>
+    	<if test="null != button_cname and '' != button_cname">
+    		and button_cname like '%${button_cname}%'
+    	</if>
+	</select>
+</mapper>
