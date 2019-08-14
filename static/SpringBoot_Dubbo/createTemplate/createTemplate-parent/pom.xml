@@ -18,7 +18,7 @@
 		<spring-boot.version>1.5.10.RELEASE</spring-boot.version>
 		<dubbo.version>2.6.1</dubbo.version>
 		<zkclient.version>0.2</zkclient.version>
-		<zookeeper.version>3.4.9</zookeeper.version>
+		<zookeeper.version>3.4.14</zookeeper.version>
 		<fastjson.version>1.2.46</fastjson.version>
 		<druid.version>1.0.26</druid.version>
 		<swagger-version>1.5.1.RELEASE</swagger-version>
@@ -300,7 +300,6 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
-                    <parameters>true</parameters>
                 </configuration>
             </plugin>
             <plugin>
