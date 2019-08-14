@@ -24,6 +24,7 @@ yarn 或者 npm install
 yarn dev
 `
 # 微信讨论群
+![微信群图片](http://www.createsz.cn/download/5401565800545_.pic.jpg)
 ## 招募管理要求
 同时具备：Java开发 2年以上，Js 3年以上 ，熟悉Nodejs
 
