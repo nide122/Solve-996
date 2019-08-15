@@ -4,9 +4,9 @@
 ### 初始化项目
 ![初始化项目](https://github.com/CREATE-AI/Solve-996/blob/master/docs/initJava.gif)
 ### pojo生成
-![初始化项目](https://github.com/CREATE-AI/Solve-996/blob/master/docs/pojo.gif)
+[初始化项目](https://github.com/CREATE-AI/Solve-996/blob/master/docs/pojo.gif)
 ## service controller mapper e2e 生成
-![初始化项目](https://github.com/CREATE-AI/Solve-996/blob/master/docs/service.gif)
+[初始化项目](https://github.com/CREATE-AI/Solve-996/blob/master/docs/service.gif)
 
 # 技术实现思路介绍
 将开发过程中大量重复性、规则性的代码，生成模版以及规则，开发人员只要输入模型，即可自动生成这部分代码，目前Java开发已实现40%的开发效率提升，已实现POJO、VO、Mapper、e2e 文件自动生成，实现部分API流程测试功能。
