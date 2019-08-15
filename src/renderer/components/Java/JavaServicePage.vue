@@ -6,7 +6,7 @@
           v-for="item in project"
           :key="item._id"
           :label="item.project_name"
-          :value="item.build_path"
+          :value="item.build_path_text"
         ></el-option>
       </el-select>
     </el-form-item>
@@ -117,6 +117,7 @@
 
 <script>
 const path = require("path");
+import { updateProjectDirJson } from "@/template/java";
 import JavaService from "@/template/JavaService";
 import { ProjectService } from "@/models/ProjectService";
 import FileOpt from "@/models/FileOpt";
@@ -181,6 +182,12 @@ export default {
         })
       }
       new JavaService(this.form).create();
+      // 更新文件结构
+      let row = this.project.find(ele=>{
+        return ele.build_path_text == this.form.project_path
+      })
+      row.update_date = new Date().getTime();
+      updateProjectDirJson(row);
       this.$notify({
         title: "成功",
         message: "操作成功",
@@ -192,7 +199,7 @@ export default {
       var that = this;
       this.$db.project.find({}, function(err, docs) {
         docs.forEach(function(ele) {
-          ele.build_path = ele.build_path
+          ele.build_path_text = ele.build_path
             ? path.join(ele.build_path, ele.project_name)
             : "";
         });
@@ -220,7 +227,7 @@ export default {
         project_path: this.form.project_path
       });
       this.project.forEach((ele, index) => {
-        if (this.form.project_path === ele.build_path) {
+        if (this.form.project_path === ele.build_path_text) {
           this.form.project_name = ele.project_name;
           return;
         }

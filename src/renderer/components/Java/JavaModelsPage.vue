@@ -6,7 +6,7 @@
           v-for="item in project"
           :key="item._id"
           :label="item.project_name"
-          :value="item.build_path"
+          :value="item.build_path_text"
         ></el-option>
       </el-select>
     </el-form-item>
@@ -69,7 +69,7 @@
 
 <script>
 const path = require("path");
-import { getKeyPath } from "@/template/java";
+import { getKeyPath,updateProjectDirJson } from "@/template/java";
 import { createModelsFile, getSqlJSON } from "@/template/javaModels";
 import { ProjectModel } from "@/models/projectModel";
 export default {
@@ -91,6 +91,13 @@ export default {
   methods: {
     onSubmit() {
       createModelsFile(this.form);
+      // 更新文件结构
+      let row = this.project.find(ele=>{
+        return ele.build_path_text == this.form.project_path
+      })
+      row.update_date = new Date().getTime();
+      updateProjectDirJson(row);
+      this.$db.project.update({ _id: row._id }, row);
       this.$notify({
         title: "成功",
         message: "操作成功",
@@ -106,7 +113,7 @@ export default {
       var that = this;
       this.$db.project.find({}, function(err, docs) {
         docs.forEach(function(ele) {
-          ele.build_path = ele.build_path
+          ele.build_path_text = ele.build_path
             ? path.join(ele.build_path, ele.project_name)
             : "";
         });
@@ -134,9 +141,14 @@ export default {
       }
     },
     change_build_path() {
+      this.build_path = []
+      this.build_path_vo = []
+      this.sql_json_arr = []
+      this.form.build_path = ""
+      this.form.build_path_vo = ""
       // 读取文件 获取pojo 内容
-      this.build_path = getKeyPath(this.form.project_path, "pojo");
-      this.build_path_vo = getKeyPath(this.form.project_path, "vo");
+      this.build_path = getKeyPath(this.form.project_path, "pojo")
+      this.build_path_vo = getKeyPath(this.form.project_path, "vo")
     }
   },
   mounted() {

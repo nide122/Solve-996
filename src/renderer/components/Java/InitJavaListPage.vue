@@ -138,6 +138,7 @@ export default {
     },
     // 更新项目目录结构JSON
     updateProject: function(row) {
+      console.log(row)
       row.update_date = new Date().getTime();
       updateProjectDirJson(row);
       this.$db.project.update({ _id: row._id }, row);
