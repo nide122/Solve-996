@@ -368,7 +368,7 @@ public class ${this.E2E_NAME} {
       ${VO_VARIABLE}.setId(1L);
       //TODO: 生成必填字段
       ${SERVICE_NAME_VARIABLE}.save${POJO}(${VO_VARIABLE});
-      logger.error("save ------" + ${VO_VARIABLE}.toString());
+      logger.error("save ------" + JSON.toJSONString(${VO_VARIABLE}));
   };
   
   /**
@@ -380,7 +380,7 @@ public class ${this.E2E_NAME} {
       ${VO} ${VO_VARIABLE} = new ${VO} ();
       ${VO_VARIABLE}.setId(1L);
       ${SERVICE_NAME_VARIABLE}.update${POJO}(${VO_VARIABLE});
-    logger.error("update ------" + ${VO_VARIABLE}.toString());
+    logger.error("update ------" + JSON.toJSONString(${VO_VARIABLE}));
   };
 
   /**
@@ -390,7 +390,7 @@ public class ${this.E2E_NAME} {
   @Test
   public void findById() {
       ${POJO} db = ${SERVICE_NAME_VARIABLE}.findVOById(1L);
-      logger.error("findById ------" + db.toString());
+      logger.error("findById ------" + JSON.toJSONString(db));
   }
 
   /**
@@ -400,7 +400,7 @@ public class ${this.E2E_NAME} {
   @Test
   public void findVOById(){
       ${POJO} db = ${SERVICE_NAME_VARIABLE}.findVOById(1L);
-      logger.error("findVOById ------" + db.toString());
+      logger.error("findVOById ------" + JSON.toJSONString(db));
   }
 
   /**
@@ -410,7 +410,7 @@ public class ${this.E2E_NAME} {
   @Test
   public void findByIds() {
       List<${POJO}> list =${SERVICE_NAME_VARIABLE}.findByIds(new HashSet<Long>(StringUtil.stringToLongList("1,2,3")));
-      logger.error("findByIds ------" + list.toString());
+      logger.error("findByIds ------" + JSON.toJSONString(list));
   }
 
   /**
@@ -433,7 +433,7 @@ public class ${this.E2E_NAME} {
       ${VO_VARIABLE}.setPage(1);
       ${VO_VARIABLE}.setRows(10);
       Grid find${POJO}Page = ${SERVICE_NAME_VARIABLE}.find${POJO}Page(${VO_VARIABLE});
-      logger.debug("find${POJO}Page ------ " + find${POJO}Page.toString());
+      logger.error("find${POJO}Page ------ " + JSON.toJSONString(find${POJO}Page));
   };
 
 }
